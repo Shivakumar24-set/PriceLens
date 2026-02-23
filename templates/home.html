@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Lens - Compare Prices Instantly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <style>
+    @view-transition {
+      navigation: auto;
+    }
+  </style>
+  </head>
+
+  <body class="h-full bg-[#F8FAFC] text-[#1F2937]">
+    <div id="app" class="h-full overflow-auto"><!-- Navigation -->
+      <nav class="sticky top-0 z-50 glass-effect shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16"><!-- Logo -->
+            <div class="flex items-center gap-2 cursor-pointer"
+              onclick="showSection('home')">
+              <div
+                class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2563EB] to-[#22C55E] flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" fill="none"
+                  stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div><span id="nav-title"
+                class="text-xl font-bold text-[#0A2540]">Price Lens</span>
+            </div><!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-8"><button
+                onclick="showSection('home')"
+                class="nav-link text-[#0A2540] font-medium active"
+                data-section="home">Home</button> <button
+                onclick="showSection('grocery')"
+                class="nav-link text-[#0A2540] font-medium"
+                data-section="grocery">Grocery</button> <button
+                onclick="showSection('clothing')"
+                class="nav-link text-[#0A2540] font-medium"
+                data-section="clothing">Clothing</button> <button
+                onclick="showSection('gadgets')"
+                class="nav-link text-[#0A2540] font-medium"
+                data-section="gadgets">Gadgets</button> <button
+                onclick="showSection('travel')"
+                class="nav-link text-[#0A2540] font-medium"
+                data-section="travel">Travel</button> <button
+                onclick="showSection('about')"
+                class="nav-link text-[#0A2540] font-medium"
+                data-section="about">About</button>
+            </div><!-- Auth Buttons -->
+            <div class="hidden md:flex items-center gap-3"><button
+                onclick="showModal('login')"
+                class="px-4 py-2 text-[#2563EB] font-medium hover:bg-blue-50 rounded-lg transition-all">Login</button>
+              <button onclick="showModal('signup')"
+                class="btn-primary px-4 py-2 text-white font-medium rounded-lg">Sign
+                Up</button>
+            </div><!-- Mobile Menu Button --> <button
+              onclick="toggleMobileMenu()"
+              class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-all">
+              <svg class="w-6 h-6 text-[#0A2540]" fill="none"
+                stroke="currentColor" viewbox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg></button>
+          </div>
+        </div>
+      </nav><!-- Mobile Menu -->
+      <div id="mobile-menu"
+        class="mobile-menu fixed inset-0 z-40 bg-white md:hidden">
+        <div class="flex flex-col h-full">
+          <div class="flex items-center justify-between p-4 border-b"><span
+              class="text-xl font-bold text-[#0A2540]">Menu</span> <button
+              onclick="toggleMobileMenu()"
+              class="p-2 rounded-lg hover:bg-gray-100">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor"
+                viewbox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg></button>
+          </div>
+          <div class="flex flex-col p-4 gap-2"><button
+              onclick="showSection('home'); toggleMobileMenu();"
+              class="text-left px-4 py-3 rounded-lg hover:bg-gray-100 font-medium">Home</button> <button
+              onclick="showSection('grocery'); toggleMobileMenu();"
+              class="text-left px-4 py-3 rounded-lg hover:bg-gray-100 font-medium">Grocery</button> <button
+              onclick="showSection('clothing'); toggleMobileMenu();"
+              class="text-left px-4 py-3 rounded-lg hover:bg-gray-100 font-medium">Clothing</button> <button
+              onclick="showSection('gadgets'); toggleMobileMenu();"
+              class="text-left px-4 py-3 rounded-lg hover:bg-gray-100 font-medium">Gadgets</button> <button
+              onclick="showSection('travel'); toggleMobileMenu();"
+              class="text-left px-4 py-3 rounded-lg hover:bg-gray-100 font-medium">Travel</button> <button
+              onclick="showSection('about'); toggleMobileMenu();"
+              class="text-left px-4 py-3 rounded-lg hover:bg-gray-100 font-medium">About</button>
+          </div>
+          <div class="mt-auto p-4 border-t flex gap-3"><button
+              onclick="showModal('login'); toggleMobileMenu();"
+              class="flex-1 py-3 border-2 border-[#2563EB] text-[#2563EB] font-medium rounded-lg">Login</button>
+            <button onclick="showModal('signup'); toggleMobileMenu();"
+              class="flex-1 py-3 btn-primary text-white font-medium rounded-lg">Sign
+              Up</button>
+          </div>
+        </div>
+      </div><!-- Main Content -->
+      <main><!-- Home Section -->
+        <section id="home-section" class="fade-in"><!-- Hero -->
+          <div class="hero-gradient text-white py-16 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div class="text-center">
+                <h1 id="hero-title"
+                  class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Find
+                  the <span class="text-[#22C55E]">Best Prices</span>
+                  Instantly</h1>
+                <p id="hero-tagline"
+                  class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Compare
+                  prices across top platforms. Save money on groceries,
+                  clothing, gadgets, and travel.</p><!-- Search Bar -->
+                <div class="max-w-2xl mx-auto">
+                  <div class="relative"><input type="text" id="global-search"
+                      placeholder="Search for products, flights, buses..."
+                      class="search-input w-full px-6 py-4 pl-14 rounded-2xl text-[#1F2937] text-lg focus:outline-none shadow-xl"
+                      onkeyup="handleSearch(event)">
+                    <svg
+                      class="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400"
+                      fill="none"
+                      stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg><button onclick="performSearch()"
+                      class="absolute right-2 top-1/2 -translate-y-1/2 btn-primary px-6 py-2 rounded-xl text-white font-medium">
+                      Search </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- Category Cards -->
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+              <div onclick="showSection('grocery')"
+                class="category-card bg-white rounded-2xl p-6 shadow-lg cursor-pointer text-center">
+                <div
+                  class="category-icon w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-3xl">
+                  Grocery
+                </div>
+                <h3 class="font-semibold text-[#0A2540]">Grocery</h3>
+                <p class="text-sm text-[#6B7280] mt-1">Blinkit / Zepto / Instamart</p>
+              </div>
+              <div onclick="showSection('clothing')"
+                class="category-card bg-white rounded-2xl p-6 shadow-lg cursor-pointer text-center">
+                <div
+                  class="category-icon w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-3xl">
+                  Clothing
+                </div>
+                <h3 class="font-semibold text-[#0A2540]">Clothing</h3>
+                <p class="text-sm text-[#6B7280] mt-1">Flipkart / Amazon</p>
+              </div>
+              <div onclick="showSection('gadgets')"
+                class="category-card bg-white rounded-2xl p-6 shadow-lg cursor-pointer text-center">
+                <div
+                  class="category-icon w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-3xl">
+                  Gadgets
+                </div>
+                <h3 class="font-semibold text-[#0A2540]">Gadgets</h3>
+                <p class="text-sm text-[#6B7280] mt-1">Amazon / Flipkart / Croma</p>
+              </div>
+              <div onclick="showSection('travel')"
+                class="category-card bg-white rounded-2xl p-6 shadow-lg cursor-pointer text-center">
+                <div
+                  class="category-icon w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-3xl">
+                  Travel
+                </div>
+                <h3 class="font-semibold text-[#0A2540]">Travel</h3>
+                <p class="text-sm text-[#6B7280] mt-1">Flights / Buses</p>
+              </div>
+            </div>
+          </div><!-- Trending Deals -->
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="flex items-center justify-between mb-8">
+              <div>
+                <h2 class="text-2xl md:text-3xl font-bold text-[#0A2540]">Trending Deals</h2>
+                <p class="text-[#6B7280] mt-1">Best prices found today</p>
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Deal Card 1 -->
+              <div
+                class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                  <div
+                    class="h-48 bg-gradient-to-br from-yellow-100 to-yellow-200 flex items-center justify-center text-6xl">
+                    Milk
+                  </div><span
+                    class="absolute top-3 right-3 bg-[#22C55E] text-white text-xs font-bold px-3 py-1 rounded-full pulse-badge">
+                    BEST PRICE </span>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-semibold text-lg text-[#0A2540]">Amul Milk 1L</h3>
+                  <p class="text-[#6B7280] text-sm">Fresh Toned Milk</p>
+                  <div class="flex items-center justify-between mt-4">
+                    <div><span
+                        class="text-2xl font-bold text-[#22C55E]">INR 56</span>
+                      <span
+                        class="text-sm text-[#6B7280] line-through ml-2">INR 62</span>
+                    </div><span
+                      class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">Blinkit</span>
+                  </div>
+                </div>
+              </div><!-- Deal Card 2 -->
+              <div
+                class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                  <div
+                    class="h-48 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-6xl">
+                    Shoes
+                  </div><span
+                    class="absolute top-3 right-3 bg-[#22C55E] text-white text-xs font-bold px-3 py-1 rounded-full pulse-badge">
+                    40% OFF </span>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-semibold text-lg text-[#0A2540]">Nike Air Max</h3>
+                  <p class="text-[#6B7280] text-sm">Running Shoes</p>
+                  <div class="flex items-center justify-between mt-4">
+                    <div><span
+                        class="text-2xl font-bold text-[#22C55E]">INR 5,999</span>
+                      <span
+                        class="text-sm text-[#6B7280] line-through ml-2">INR 9,999</span>
+                    </div><span
+                      class="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full font-medium">Amazon</span>
+                  </div>
+                </div>
+              </div><!-- Deal Card 3 -->
+              <div
+                class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="relative">
+                  <div
+                    class="h-48 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-6xl">
+                    iPhone
+                  </div><span
+                    class="absolute top-3 right-3 bg-[#22C55E] text-white text-xs font-bold px-3 py-1 rounded-full pulse-badge">
+                    LOWEST </span>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-semibold text-lg text-[#0A2540]">iPhone 15 128GB</h3>
+                  <p class="text-[#6B7280] text-sm">Latest Model</p>
+                  <div class="flex items-center justify-between mt-4">
+                    <div><span
+                        class="text-2xl font-bold text-[#22C55E]">INR 71,999</span>
+                      <span
+                        class="text-sm text-[#6B7280] line-through ml-2">INR 79,900</span>
+                    </div><span
+                      class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-medium">Flipkart</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div></section><!-- Grocery Section -->
+        <section id="grocery-section" class="hidden fade-in py-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-3xl">
+                Grocery
+              </div>
+              <div>
+                <h1
+                  class="text-2xl md:text-3xl font-bold text-[#0A2540]">Grocery
+                  Price Comparison</h1>
+                <p class="text-[#6B7280]">Compare prices across Blinkit, Zepto & Instamart</p>
+              </div>
+              <button onclick="addGroceryProduct()"
+                class="ml-auto px-4 py-2 rounded-xl bg-[#0A2540] text-white font-semibold hover:bg-[#1a3a5f] transition-colors">+
+                Add Product</button>
+            </div><!-- Search & Filters -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+              <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 relative"><input type="text"
+                    id="grocery-search" placeholder="Search groceries..."
+                    class="w-full px-4 py-3 pl-12 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input"
+                    onkeyup="filterGrocery()">
+                  <svg
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div><select id="grocery-category" onchange="filterGrocery()"
+                  class="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                  <option value>All Categories</option>
+                  <option value="dairy">Dairy</option>
+                  <option value="fruits">Fruits & Vegetables</option>
+                  <option value="snacks">Snacks</option>
+                  <option value="beverages">Beverages</option>
+                </select>
+              </div>
+            </div><!-- Products Grid -->
+            <div id="grocery-products"
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Products will be rendered here -->
+            </div>
+          </div>
+        </section><!-- Clothing Section -->
+        <section id="clothing-section" class="hidden fade-in py-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-3xl">
+                Clothing
+              </div>
+              <div>
+                <h1
+                  class="text-2xl md:text-3xl font-bold text-[#0A2540]">Clothing
+                  Price Comparison</h1>
+                <p class="text-[#6B7280]">Compare prices across Flipkart & Amazon</p>
+              </div>
+            </div><!-- Search & Filters -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+              <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 relative"><input type="text"
+                    id="clothing-search" placeholder="Search clothing..."
+                    class="w-full px-4 py-3 pl-12 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input"
+                    onkeyup="filterClothing()">
+                  <svg
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div><select id="clothing-category" onchange="filterClothing()"
+                  class="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                  <option value>All Categories</option>
+                  <option value="tshirts">T-Shirts</option>
+                  <option value="jeans">Jeans</option>
+                  <option value="shoes">Shoes</option>
+                  <option value="ethnic">Ethnic Wear</option>
+                </select> <select id="clothing-size" onchange="filterClothing()"
+                  class="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                  <option value>All Sizes</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                </select>
+              </div>
+            </div><!-- Products Grid -->
+            <div id="clothing-products"
+              class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Products will be rendered here -->
+            </div>
+          </div>
+        </section><!-- Gadgets Section -->
+        <section id="gadgets-section" class="hidden fade-in py-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-3xl">
+                Gadgets
+              </div>
+              <div>
+                <h1
+                  class="text-2xl md:text-3xl font-bold text-[#0A2540]">Gadgets
+                  Price Comparison</h1>
+                <p class="text-[#6B7280]">Compare prices across Amazon, Flipkart & Croma</p>
+              </div>
+            </div><!-- Search & Filters -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+              <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1 relative"><input type="text"
+                    id="gadgets-search" placeholder="Search gadgets..."
+                    class="w-full px-4 py-3 pl-12 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input"
+                    onkeyup="filterGadgets()">
+                  <svg
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div><select id="gadgets-category" onchange="filterGadgets()"
+                  class="px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                  <option value>All Categories</option>
+                  <option value="phones">Smartphones</option>
+                  <option value="laptops">Laptops</option>
+                  <option value="headphones">Headphones</option>
+                  <option value="watches">Smartwatches</option>
+                </select>
+              </div>
+            </div><!-- Products Grid -->
+            <div id="gadgets-products"
+              class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <!-- Products will be rendered here -->
+            </div>
+          </div>
+        </section><!-- Travel Section -->
+        <section id="travel-section" class="hidden fade-in py-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-4 mb-8">
+              <div
+                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-3xl">
+                Travel
+              </div>
+              <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-[#0A2540]">Travel
+                  Price Comparison</h1>
+                <p class="text-[#6B7280]">Compare flights & bus tickets</p>
+              </div>
+            </div><!-- Tabs -->
+            <div class="flex gap-4 mb-8"><button
+                onclick="showTravelTab('flights')" id="flights-tab"
+                class="flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all bg-[#2563EB] text-white">
+                Flights </button> <button onclick="showTravelTab('buses')"
+                id="buses-tab"
+                class="flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all bg-white text-[#6B7280] hover:bg-gray-50">
+                Buses </button>
+            </div><!-- Flights Section -->
+            <div id="flights-content"><!-- Search Form -->
+              <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div><label
+                      class="block text-sm font-medium text-[#6B7280] mb-2">From</label>
+                    <select id="flight-from"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                      <option value="DEL">Delhi (DEL)</option>
+                      <option value="BOM">Mumbai (BOM)</option>
+                      <option value="BLR">Bangalore (BLR)</option>
+                      <option value="HYD">Hyderabad (HYD)</option>
+                      <option value="MAA">Chennai (MAA)</option>
+                    </select>
+                  </div>
+                  <div><label
+                      class="block text-sm font-medium text-[#6B7280] mb-2">To</label>
+                    <select id="flight-to"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                      <option value="BOM">Mumbai (BOM)</option>
+                      <option value="DEL">Delhi (DEL)</option>
+                      <option value="BLR">Bangalore (BLR)</option>
+                      <option value="GOI">Goa (GOI)</option>
+                      <option value="CCU">Kolkata (CCU)</option>
+                    </select>
+                  </div>
+                  <div><label
+                      class="block text-sm font-medium text-[#6B7280] mb-2">Date</label>
+                    <input type="date" id="flight-date"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB]">
+                  </div>
+                  <div class="flex items-end"><button onclick="searchFlights()"
+                      class="w-full btn-primary px-6 py-3 rounded-xl text-white font-medium">
+                      Search Flights </button>
+                  </div>
+                </div>
+              </div><!-- Flight Results -->
+              <div id="flight-results"
+                class="space-y-4"><!-- Results will be rendered here -->
+              </div>
+            </div><!-- Buses Section -->
+            <div id="buses-content" class="hidden"><!-- Search Form -->
+              <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div><label
+                      class="block text-sm font-medium text-[#6B7280] mb-2">From</label>
+                    <select id="bus-from"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Pune">Pune</option>
+                      <option value="Bangalore">Bangalore</option>
+                      <option value="Chennai">Chennai</option>
+                      <option value="Hyderabad">Hyderabad</option>
+                    </select>
+                  </div>
+                  <div><label
+                      class="block text-sm font-medium text-[#6B7280] mb-2">To</label>
+                    <select id="bus-to"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] bg-white">
+                      <option value="Pune">Pune</option>
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Goa">Goa</option>
+                      <option value="Nashik">Nashik</option>
+                      <option value="Shirdi">Shirdi</option>
+                    </select>
+                  </div>
+                  <div><label
+                      class="block text-sm font-medium text-[#6B7280] mb-2">Date</label>
+                    <input type="date" id="bus-date"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB]">
+                  </div>
+                  <div class="flex items-end"><button onclick="searchBuses()"
+                      class="w-full btn-primary px-6 py-3 rounded-xl text-white font-medium">
+                      Search Buses </button>
+                  </div>
+                </div>
+              </div><!-- Bus Results -->
+              <div id="bus-results"
+                class="space-y-4"><!-- Results will be rendered here -->
+              </div>
+            </div>
+          </div>
+        </section><!-- About Section -->
+        <section id="about-section" class="hidden fade-in py-8">
+          <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+              <h1
+                class="text-3xl md:text-4xl font-bold text-[#0A2540] mb-4">About
+                Price Lens</h1>
+              <p class="text-lg text-[#6B7280]">Your trusted companion for smart shopping</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+              <div class="prose max-w-none">
+                <h2 class="text-2xl font-bold text-[#0A2540] mb-4">Our Mission</h2>
+                <p class="text-[#6B7280] mb-6">Price Lens was created with a simple mission: to help shoppers find the best prices across multiple platforms instantly. We believe that everyone deserves access to the best deals, and our platform makes comparison shopping effortless.</p>
+                <h2 class="text-2xl font-bold text-[#0A2540] mb-4">How It Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div class="text-center p-6 bg-[#F8FAFC] rounded-xl">
+                    <div class="text-4xl mb-4">Search</div>
+                    <h3 class="font-semibold text-[#0A2540] mb-2">Search</h3>
+                    <p class="text-sm text-[#6B7280]">Enter what you're looking for</p>
+                  </div>
+                  <div class="text-center p-6 bg-[#F8FAFC] rounded-xl">
+                    <div class="text-4xl mb-4">Compare</div>
+                    <h3 class="font-semibold text-[#0A2540] mb-2">Compare</h3>
+                    <p class="text-sm text-[#6B7280]">See prices from multiple platforms</p>
+                  </div>
+                  <div class="text-center p-6 bg-[#F8FAFC] rounded-xl">
+                    <div class="text-4xl mb-4">Save</div>
+                    <h3 class="font-semibold text-[#0A2540] mb-2">Save</h3>
+                    <p class="text-sm text-[#6B7280]">Choose the best deal and save money</p>
+                  </div>
+                </div>
+                <h2 class="text-2xl font-bold text-[#0A2540] mb-4">Our Partners</h2>
+                <div class="flex flex-wrap gap-4 justify-center">
+                  <span class="px-4 py-2 bg-green-100 text-green-700 rounded-full font-medium">Blinkit</span>
+                  <span class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-medium">Zepto</span>
+                  <span class="px-4 py-2 bg-orange-100 text-orange-700 rounded-full font-medium">Instamart</span>
+                  <span class="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-full font-medium">Flipkart</span>
+                  <span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full font-medium">Amazon</span>
+                  <span class="px-4 py-2 bg-red-100 text-red-700 rounded-full font-medium">RedBus</span>
+                  <span class="px-4 py-2 bg-teal-100 text-teal-700 rounded-full font-medium">ZingBus</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main><!-- Footer -->
+      <footer class="bg-[#0A2540] text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <div
+                  class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2563EB] to-[#22C55E] flex items-center justify-center">
+                  <svg class="w-6 h-6 text-white" fill="none"
+                    stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div><span class="text-xl font-bold">Price Lens</span>
+              </div>
+              <p class="text-gray-400 text-sm">Find the best prices instantly across multiple platforms.</p>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-4">Categories</h4>
+              <ul class="space-y-2 text-gray-400 text-sm">
+                <li><button onclick="showSection('grocery')" class="hover:text-[#22C55E] transition-colors">Grocery</button></li>
+                <li><button onclick="showSection('clothing')" class="hover:text-[#22C55E] transition-colors">Clothing</button></li>
+                <li><button onclick="showSection('gadgets')" class="hover:text-[#22C55E] transition-colors">Gadgets</button></li>
+                <li><button onclick="showSection('travel')" class="hover:text-[#22C55E] transition-colors">Travel</button></li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-4">Company</h4>
+              <ul class="space-y-2 text-gray-400 text-sm">
+                <li><button onclick="showSection('about')" class="hover:text-[#22C55E] transition-colors">About Us</button></li>
+                <li><a href="#" class="hover:text-[#22C55E] transition-colors">Contact</a></li>
+                <li><a href="#" class="hover:text-[#22C55E] transition-colors">Careers</a></li>
+                <li><a href="#" class="hover:text-[#22C55E] transition-colors">Blog</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-semibold mb-4">Connect</h4>
+              <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#2563EB] transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                  </svg>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#2563EB] transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#2563EB] transition-colors">
+                  <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="border-t border-white/10 mt-8 pt-8 text-center text-gray-400 text-sm">
+            <p>2024 Price Lens. All rights reserved. Made for smart shoppers.</p>
+          </div>
+        </div>
+      </footer><!-- Modal -->
+      <div id="modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+          <button onclick="closeModal()" class="absolute top-4 right-4 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <!-- Login Form -->
+          <div id="login-form">
+            <h2 class="text-2xl font-bold text-[#0A2540] mb-2">Welcome Back!</h2>
+            <p class="text-[#6B7280] mb-6">Sign in to access your account</p>
+            <form onsubmit="handleLogin(event)">
+              <div class="mb-4">
+                <label for="login-email" class="block text-sm font-medium text-[#6B7280] mb-2">Email</label>
+                <input type="email" id="login-email" placeholder="your@email.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input" required>
+              </div>
+              <div class="mb-6">
+                <label for="login-password" class="block text-sm font-medium text-[#6B7280] mb-2">Password</label>
+                <input type="password" id="login-password" placeholder="********" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input" required>
+              </div>
+              <button type="submit" class="w-full btn-primary py-3 rounded-xl text-white font-medium mb-4">Sign In</button>
+              <p class="text-center text-[#6B7280] text-sm">Don't have an account? <button type="button" onclick="showModal('signup')" class="text-[#2563EB] font-medium">Sign Up</button></p>
+            </form>
+          </div>
+          <!-- Signup Form -->
+          <div id="signup-form" class="hidden">
+            <h2 class="text-2xl font-bold text-[#0A2540] mb-2">Create Account</h2>
+            <p class="text-[#6B7280] mb-6">Join Price Lens to start saving</p>
+            <form onsubmit="handleSignup(event)">
+              <div class="mb-4">
+                <label for="signup-name" class="block text-sm font-medium text-[#6B7280] mb-2">Full Name</label>
+                <input type="text" id="signup-name" placeholder="John Doe" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input" required>
+              </div>
+              <div class="mb-4">
+                <label for="signup-email" class="block text-sm font-medium text-[#6B7280] mb-2">Email</label>
+                <input type="email" id="signup-email" placeholder="your@email.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input" required>
+              </div>
+              <div class="mb-6">
+                <label for="signup-password" class="block text-sm font-medium text-[#6B7280] mb-2">Password</label>
+                <input type="password" id="signup-password" placeholder="********" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#2563EB] search-input" required>
+              </div>
+              <button type="submit" class="w-full btn-primary py-3 rounded-xl text-white font-medium mb-4">Create Account</button>
+              <p class="text-center text-[#6B7280] text-sm">Already have an account? <button type="button" onclick="showModal('login')" class="text-[#2563EB] font-medium">Sign In</button></p>
+            </form>
+          </div>
+        </div>
+      </div><!-- Toast -->
+      <div id="toast" class="fixed bottom-4 right-4 bg-[#22C55E] text-white px-6 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <span id="toast-message">Success!</span>
+      </div>
+      <div id="grocery-compare-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4" onclick="if (event.target.id === 'grocery-compare-modal') closeGroceryCompareModal()">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden">
+          <div class="flex items-center justify-between p-4 border-b">
+            <h2 class="text-lg font-bold text-[#0A2540]">Price Comparison</h2>
+            <button onclick="closeGroceryCompareModal()" class="p-2 rounded-lg hover:bg-gray-100 text-gray-600">X</button>
+          </div>
+          <div id="grocery-compare-content"></div>
+        </div>
+      </div>
+    </div>
+    <script src="../static/js/script.js"></script>
+  </body>
+</html>
